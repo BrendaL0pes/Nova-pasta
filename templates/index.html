@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Gráfico de Interferência</title>
+</head>
+<body>
+    <h1>Gerar Gráfico de Interferência</h1>
+    <form action="/plot" method="post">
+        <label for="lambda_">Comprimento de Onda (λ):</label>
+        <input type="number" name="lambda_" step="0.1" value="5" required><br><br>
+
+        <label for="beta">Ângulo de Rotação (β):</label>
+        <input type="number" name="beta" step="0.1" value="45" required><br><br>
+
+        <label for="plot_type">Tipo de Gráfico:</label>
+        <select name="plot_type">
+            <option value="2d">Gráfico 2D</option>
+            <option value="3d">Gráfico 3D</option>
+        </select><br><br>
+
+        <input type="submit" value="Gerar Gráfico">
+    </form>
+
+    <h2>Gráfico Gerado:</h2>
+    <img src="/plot" alt="Gráfico de Interferência">
+</body>
+</html>

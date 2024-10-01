@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from flask import Flask, render_template, request, send_file
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from mpl_toolkits.mplot3d import Axes3D  # Necessário para gráficos 3D
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ def index():
 def plot_graph():
     lambda_ = float(request.form['lambda_'])
     beta = float(request.form['beta'])
+    plot_type = request.form['plot_type']
     
     # Geração dos dados de x e y
     x_vals = np.linspace(-10, 10, 400)
@@ -34,9 +36,19 @@ def plot_graph():
     Z = calculate_interference(lambda_, beta, X, Y)
 
     # Gerar o gráfico
-    fig, ax = plt.subplots()
-    contour = ax.contourf(X, Y, Z, levels=100, cmap='viridis')
-    plt.colorbar(contour)
+    fig = plt.figure(figsize=(10, 7))
+
+    # Verifica se o gráfico é 2D ou 3D com base na seleção do usuário
+    if plot_type == '2d':
+        ax = fig.add_subplot(111)
+        contour = ax.contourf(X, Y, Z, levels=100, cmap='viridis')
+        plt.colorbar(contour)
+    elif plot_type == '3d':
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('Interferência')
 
     # Salvar o gráfico como imagem
     img = io.BytesIO()  # Salva o gráfico na memória como bytes
